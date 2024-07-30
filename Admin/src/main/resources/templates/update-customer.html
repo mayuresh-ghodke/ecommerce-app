@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+
+<head th:replace="~{fragments::header}"></head>
+
+<body id="page-top">
+    <div th:replace="~{fragments::top-bar}"></div>
+    <!-- Page Wrapper -->
+    <div class="container-fluid">
+        <div class="row" id="wrapper">
+            <!--Sidebar-->
+            <ul th:replace="~{fragments::sidebar}"></ul>
+            <div id="content" class="col-md-8">
+                <div class="mt-2">
+                    <div class="card offset-md-3">
+                        <div class="card-header font-weight-bold text-center">UPDATE CUSTOMER INFORMATION</div>
+
+                        <form class="form p-3" th:action="@{/update-customer/{id}(id = ${customer.id})}" method="post"
+                            th:object="${customer}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-muted" for="product_name">FIRST
+                                            NAME</label>
+
+                                        <input id="first_name" th:field="*{firstName}" name="first_name"
+                                            class="form-control" required="" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-muted" for="product_name">LAST
+                                            NAME</label>
+
+                                        <input id="last_name" th:field="*{lastName}" name="last_name"
+                                            class="form-control" required="" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-muted" for="product_name">MOBILE</label>
+
+                                        <input id="first_name" th:field="*{phoneNumber}" name="first_name"
+                                            class="form-control" required="" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-muted" for="product_name">EMAIL</label>
+
+                                        <input id="last_name" th:field="*{username}" name="last_name"
+                                            class="form-control" required="" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white">
+                                <button type="submit" class="btn btn-primary btn-block">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Page Wrapper -->
+
+</body>
+</html>

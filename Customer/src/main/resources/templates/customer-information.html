@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+
+<head th:replace="~{fragments::head}"></head>
+
+<head>
+    <style>
+        input, select{
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        *{
+            font-family:'Times New Roman', Times, serif;
+        }
+        .form-group .fa-eye {
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments::main-top}"></div>
+    <header th:replace="~{fragments::main-header}"></header>
+
+    <div class="container">
+        <div class="row">
+            <h2 th:text="${firstName}"></h2>
+        </div>
+        <div class="offset-md-1 col-md-10">
+            <h5 class="ml-5 mt-5">
+                <strong class="ml-5">Personal Information</strong>
+            </h5>
+            <div th:if="${success}" class="text-center alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+
+            <form th:action="@{/update-profile}" method="post" name="signupForm" id="signupForm"
+                th:object="${customer}">
+                <div class="card ml-5 mt-2 p-5" style="border-radius: 30px;">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-bold text-muted" for="firstname"> Firstname * </label><br>
+                            <input type="text"  id="firstname" th:field="*{firstName}"
+                                name="firstname" required readonly>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}"
+                                th:errors="*{firstName}"></div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-bold text-muted" for="lastname">Lastname *</label>
+                            <input type="text" th:field="*{lastName}" id="lastname" name="lastname"
+                                required readonly>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}"
+                                th:errors="*{lastName}" required></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-bold text-muted" for="username">Email or Username *</label><br>
+                            <input type="text" th:field="*{username}"  id="username" name="username"
+                                readonly>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}"
+                                th:errors="*{lastName}" required></div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-bold text-muted" for="phoneNumber">Phone Number *</label><br>
+                            <input type="number" th:field="*{phoneNumber}" 
+                                th:placeholder="${customer.phoneNumber != null} ? ${customer.phoneNumber} : 'Enter your phone number'"
+                                id="phoneNumber" name="phonenumber" minlength="10">
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('phoneNumber')}"
+                                th:errors="*{phoneNumber}"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-bold text-muted" for="currentPassword">Password *</label>
+                            <input type="password" id="currentPassword" name="currentPassword" value="">
+                            <i class="fa fa-eye" aria-hidden="true" onclick="togglePasswordVisibility()"></i>
+                        </div>
+                        
+                        <script>
+                            function togglePasswordVisibility() {
+                                const passwordInput = document.getElementById('currentPassword');
+                                const eyeIcon = document.querySelector('.fa-eye');
+                                
+                                if (passwordInput.type === 'password') {
+                                    passwordInput.type = 'text';
+                                    eyeIcon.classList.remove('fa-eye');
+                                    eyeIcon.classList.add('fa-eye-slash');
+                                } else {
+                                    passwordInput.type = 'password';
+                                    eyeIcon.classList.remove('fa-eye-slash');
+                                    eyeIcon.classList.add('fa-eye');
+                                }
+                            }
+                        </script>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <a th:href="@{/change-password}" class="ml-2"
+                                style="text-decoration: none; margin-top: 40px;">Change Password</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-0 m-0">
+                        <button type="submit" id="submitButton" class="btn btn-success mt-2">
+                            <span>UPDATE PROFILE</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Address Information-->
+            <form th:action="@{/update-customer-address}" method="post" name="addressForm" 
+                id="addressForm" th:object="${address}">
+                <div class="mt-3">
+                    <h5 class="ml-5 mt-5">
+                        <strong class="ml-5">Address Information: </strong>
+                        <sub class="ml-5"><i>This Address Will Be Same For Your Orders Shipping Address.</i></sub>
+                    </h5>
+                    <div class="card ml-5 mt-2 p-5 mb-3" style="border-radius: 30px;">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label class="font-weight-bold text-muted" for="address">Street/Area *</label><br>
+                                <input type="text" id="street" name="street" th:field="*{street}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="font-weight-bold text-muted" for="pincode">Pincode *</label>
+                                <input type="text" id="pincode" name="pincode" th:field="*{pincode}">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="font-weight-bold text-muted" for="city">City *</label>
+                                <input type="text" id="city" name="city" th:field="*{city}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="font-weight-bold text-muted" for="state">State *</label>
+                                <input type="text" id="state" name="state" th:field="*{state}">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="font-weight-bold text-muted" for="country">Country *</label>
+                                <input type="text" id="country" name="country" th:field="*{country}">
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-0 m-0">
+                            <button type="submit" id="submitButton" class="btn btn-outline-success mt-2">
+                                <span>SAVE ADDRESS</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+    
+    <footer th:replace="~{fragments::footer}"></footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        // $(document).ready(function(){
+        //     $('#something').hide(); // Hide the div with id "something"
+        // });
+
+        document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById('signupForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var phoneNumber = document.getElementById('phoneNumber').value;
+        var email = document.getElementById('username').value;
+
+        if (!validateEmail(email)) {
+            alert('Please enter a valid email address.');
+            return false;
+        }
+
+        if (!validatePhoneNumber(phoneNumber)) {
+            alert('Please enter a valid 10-digit phone number.');
+            return false;
+        }
+
+        if (!validateIndianPhoneNumber(phoneNumber)) {
+            alert('Please enter a valid Indian phone number (10 digits, starting with 6, 7, 8, or 9).');
+            return false;
+        }
+
+        alert('Profile updated successfully.');
+        this.submit();
+    });
+
+    document.getElementById('addressForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var street = document.getElementById('street').value;
+        var pincode = document.getElementById('pincode').value;
+        var city = document.getElementById('city').value;
+        var state = document.getElementById('state').value;
+        var country = document.getElementById('country').value;
+
+        if (street === "") {
+            alert('Please enter a valid street address.');
+            return false;
+        }
+
+        if (!validatePincode(pincode)) {
+            alert('Please enter a valid pincode.');
+            return false;
+        }
+
+        if (!validateCityStateCountry(city)) {
+            alert('City should not be empty and must contain only letters.');
+            return false;
+        }
+
+        if (!validateCityStateCountry(state)) {
+            alert('State should not be empty and must contain only letters.');
+            return false;
+        }
+
+        if (!validateCityStateCountry(country)) {
+            alert('Country should not be empty and must contain only letters.');
+            return false;
+        }
+
+        alert('Address updated successfully.');
+        this.submit();
+    });
+
+    function validateEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    function validatePhoneNumber(phoneNumber) {
+        var phoneRegex = /^\d{10}$/;
+        return phoneRegex.test(phoneNumber);
+    }
+
+    function validateIndianPhoneNumber(phoneNumber) {
+        var phoneRegex = /^[6-9]\d{9}$/;
+        return phoneRegex.test(phoneNumber);
+    }
+
+    function validatePincode(pincode) {
+        var pincodeRegex = /^\d{6}$/;
+        return pincodeRegex.test(pincode);
+    }
+
+    function validateCityStateCountry(input) {
+        var cityStateCountryRegex = /^[A-Za-z\s]+$/;
+        return cityStateCountryRegex.test(input);
+    }
+});
+
+    </script>
+
+</body>
+
+</html>

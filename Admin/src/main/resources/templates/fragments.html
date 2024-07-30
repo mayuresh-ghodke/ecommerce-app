@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:fragment="header">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title th:text="${title}"></title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.3/chart.min.js"
+		integrity="sha512-fMPPLjF/Xr7Ga0679WgtqoSyfUoQgdt8IIxJymStR5zV3Fyb6B3u/8DcaZ6R6sXexk5Z64bCgo2TYyn760EdcQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css">
+	<script src="https://kit.fontawesome.com/b982f6e503.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+	</script>
+
+	<style>
+		a {
+			text-decoration: none;
+		}
+
+		.sidebar-link {
+			text-decoration: none;
+
+		}
+
+		.sidebar-item {
+			display: flex;
+			align-items: center;
+			padding: 5px;
+			border-radius: 5px;
+			/* transition: background-color 0.3s ease; */
+			margin-top: 20px;
+
+		}
+
+		.sidebar-item:hover {
+			text-decoration: none;
+		}
+
+		.sidebar-icon {
+			width: 30px;
+			margin-right: 10px;
+		}
+
+		.sidebar-text {
+			font-size: 16px;
+			text-decoration: none;
+		}
+
+		.box {
+			padding: 20px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.108), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+		}
+	</style>
+</head>
+
+<body class="bg-dark">
+
+	<!-- Sidebar -->
+	<div th:fragment="sidebar" class="col-2 col-lg-2 col-md-12 col-sm-12 bg-dark p-2"
+		style="height: 100vh; width: 100%;">
+		<div class="sidebar-menu ml-3">
+			<a th:href="@{/index}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fas fa-tachometer-alt"></i> Dashboard</span>
+				</div>
+			</a>
+			<hr>
+			<a href="categories.html" th:href="@{/categories}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fa-solid fa-list"></i> Manage Categories</span>
+				</div>
+			</a>
+			<hr>
+			<a href="customers.html" th:href="@{/subcategories}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fa-solid fa-table-list"></i> Manage Sub-Categories</span>
+				</div>
+			</a>
+			<hr>
+			<a th:href="@{/add-product}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;"><i class="fas fa-plus"></i> Add Product</span>
+				</div>
+			</a>
+			<hr>
+			<a href="products.html" th:href="@{/products}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;"><i class="fa-brands fa-product-hunt"></i> View
+						Products</span>
+				</div>
+			</a>
+			<hr>
+			<a href="orders.html" th:href="@{/orders}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fa-solid fa-bars"></i> Manage Orders</span>
+				</div>
+			</a>
+			<hr>
+			<a href="customers.html" th:href="@{/customers}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fa-solid fa-users"></i> Manage Customers</span>
+				</div>
+			</a>
+			<hr>
+			<a href="customers.html" th:href="@{/reviews}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fa-solid fa-star"></i> Manage Reviews</span>
+				</div>
+			</a>
+			<hr>
+			<a th:href="@{/delivery-persons}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fa-solid fa-person"></i> Manage Delivery Persons</span>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<!-- Fragment For Top Bar Start -->
+	<div class="col-lg-12" th:fragment="top-bar">
+		<div class="row align-items-center box">
+			<div class="col d-flex">
+				<!-- <img th:src="@{/img/sports-shop-logo.jpg}" width="50px" height="50px"> -->
+				<h4 class="font-weight-bold mt-2 ml-2">
+					SPORT SHOP ADMINISTRATION
+				</h4>
+			</div>
+			<div class="col text-right">
+				<a th:href="@{/logout}" class="btn btn-danger logout-btn"><i class="fas fa-sign-out-alt mr-1"></i>
+					Logout</a>
+			</div>
+		</div>
+	</div>
+	<!-- Fragment For Top Bar End -->
+
+	<!-- Fragment For Top Bar Start -->
+	<div class="col-lg-10" th:fragment="top-bar-index">
+		<div class="row align-items-center box">
+			<div class="col d-flex">
+				<!-- <img th:src="@{/img/sports-shop-logo.jpg}" width="60px" height="60px"> -->
+				<h4 class="font-weight-bold mt-2 ml-2">
+					SPORT SHOP ADMINISTRATION
+				</h4>
+			</div>
+			<div class="col text-right">
+				<a th:href="@{/logout}" class="btn btn-light logout-btn"><i class="fas fa-sign-out-alt mr-1"></i>
+					Logout</a>
+			</div>
+		</div>
+		<!-- Card's on Index page Start -->
+		<div class="row d-flex mt-3 p-3">
+			<div class="col-md-3">
+				<div class="card mt-1 bg-danger text-white text-right">
+					<h6 class="card-header">TOTAL CUSTOMERS</h6>
+					<h2 class="p-2"><span th:text="${customerSize}"></span></h2>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card mt-1 bg-success text-white text-right">
+					<h6 class="card-header">TOTAL PRODUCTS</h6>
+					<h2 class="p-2"><span th:text="${productSize}"></span></h2>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card mt-1 bg-warning text-white text-right">
+					<div class="card-header">TOTAL CATEGORIES</div>
+					<h2 class="p-2"><span th:text="${categorySize}"></span></h2>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card mt-1 bg-info text-white text-right">
+					<div class="card-header">TOTAL SUBCATEGORIES</div>
+					<h2 class="p-2"><span th:text="${subCategorySize}"></span></h2>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card mt-3 bg-primary text-white text-right">
+					<div class="card-header">TOTAL ORDERS</div>
+					<h2 class="p-2"><span th:text="${orderSize}"></span></h2>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card mt-3 bg-secondary text-white text-right">
+					<div class="card-header">PENDING ORDERS</div>
+					<h2 class="p-2"><span th:text="${pendingOrderSize}"></span></h2>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card mt-3 bg-success text-white text-right">
+					<div class="card-header">ACCEPTED ORDERS</div>
+					<h2 class="p-2"><span th:text="${acceptedOrders}"></span></h2>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card mt-3 bg-warning text-white text-right">
+					<div class="card-header">DELIVERED ORDERS</div>
+					<h2 class="p-2"><span th:text="${deliveredOrders}"></span></h2>
+				</div>
+			</div>
+			<input type="hidden" id="pOrder" th:value="${pendingOrderSize}">
+			<input type="hidden" id="aOrder" th:value="${acceptedOrders}">
+			<input type="hidden" id="dOrder" th:value="${deliveredOrders}">
+		</div>
+
+		<!-- <div class="row">
+			<div class="card">
+				<div>
+					<canvas id="orderChart" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div> -->
+		<!-- Card's on Index page End -->
+	</div>
+	<!-- Fragment For Top Bar End -->
+
+	<!-- Sidebar For Delivery Person Start-->
+	<div th:fragment="sidebar-dp" class="col-2 col-lg-2 col-md-12 col-sm-12 bg-dark p-2"
+		style="height: 100vh; width: 100%;">
+		<div class="sidebar-menu ml-3">
+			<a th:href="@{/index}" style="text-decoration: none;">
+				<div class="sidebar-item">
+					<span class="text-white" style="font-size: 16px;">
+						<i class="fas fa-tachometer-alt"></i> Dashboard</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<!-- Sidebar For Delivery Person End-->
+
+	<!-- Fragment For Top Bar Start -->
+	<div class="col-lg-12" th:fragment="top-bar-dp">
+		<div class="row align-items-center box">
+			<div class="col d-flex">
+				<!-- <img th:src="@{/img/sports-shop-logo.jpg}" width="50px" height="50px"> -->
+				<h4 class="font-weight-bold mt-2 ml-2">
+					SPORT SHOP
+				</h4>
+			</div>
+			<div class="col text-right">
+				<a th:href="@{/admin-profile}" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt mr-1"></i>
+					Profile</a>
+			</div>
+			<div class="col text-right">
+				<a th:href="@{/logout-dp}" class="btn btn-danger logout-btn"><i class="fas fa-sign-out-alt mr-1"></i>
+					Logout</a>
+			</div>
+		</div>
+	</div>
+	<!-- Fragment For Top Bar End -->
+
+	<script type="text/javascript">
+		const pOrder = document.getElementById("pOrder").value;
+		const dOrder = document.getElementById("dOrder").value;
+		const aOrder = document.getElementById("aOrder").value;
+
+		console.log(pOrder);
+		console.log(dOrder);
+		console.log(aOrder);
+
+		var orderCounts = {
+			"Pending": pOrder,
+			"Delivered": dOrder,
+			"Accepted": aOrder,
+		};
+
+		var labels = Object.keys(orderCounts);
+		var counts = Object.values(orderCounts);
+
+		var ctx = document.getElementById('orderChart').getContext('2d');
+		var orderChart = new Chart(ctx, {
+			type: 'pie',
+			data: {
+				labels: labels,
+				datasets: [{
+					data: counts,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.5)',
+						'rgba(54, 162, 235, 0.5)',
+						'rgba(255, 206, 86, 0.5)',
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				// Add options if needed
+			}
+		});
+	</script>
+</body>
+
+</html>

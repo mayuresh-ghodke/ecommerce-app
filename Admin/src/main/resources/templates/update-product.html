@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css">
+
+</head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments::top-bar}"></div>
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Content Wrapper -->
+        <div class="row p-0">
+            <!-- Main Content -->
+            <ul th:replace="~{fragments::sidebar}"></ul>
+            <div id="content" class="col-md-8">
+                <div class="mt-2">
+                    <div class="card offset-md-3">
+                        <div class="card-header font-weight-bold text-center">UPDATE PRODUCT INFORMATION
+                            1
+                        </div>
+                        <form class="form p-3" th:action="@{/update-product/{id}(id = ${productDto.id})}" method="post"
+                            th:object="${productDto}" enctype="multipart/form-data">
+                            <fieldset>
+                                <!-- Text input-->
+                                <div class="">
+                                    <div class="form-group">
+                                        <label class="text-muted" for="product_name">PRODUCT
+                                            NAME</label>
+                                        <div class="col-md-12">
+                                            <input id="product_name" th:field="*{name}" name="product_name"
+                                                class="form-control input-md" required="" type="text">
+                                        </div>
+                                    </div>
+
+                                    <!-- Select Basic -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-muted" for="product_categories">PRODUCT
+                                                    CATEGORY</label>
+                                                <div class="col-md-12">
+                                                    <select id="product_categories" th:field="*{category}"
+                                                        name="product_categories" class="form-control"
+                                                        onchange="fetchSubcategories(this.value)">
+                                                        <option th:value="null">-SELECT-</option>
+                                                        <option th:each="category : ${categories}" th:value="${category.id}"
+                                                            th:text="${category.name}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <!-- Select Basic for Subcategory -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-muted" for="product_subcategories">PRODUCT
+                                                    SUBCATEGORY</label>
+                                                <div class="col-md-12">
+                                                    <select id="product_subcategories" name="product_subcategories"
+                                                    class="form-control" th:field="*{subCategory}">
+                                                        <option th:text="${subCategory.name}" th:value="${subCategory.id}">-SELECT-</option>
+                                                    </select>                                                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <label class="text-muted" for="description">PRODUCT
+                                            DESCRIPTION</label>
+                                        <div class="col-md-12">
+                                            <textarea id="description" th:field="*{description}" name="description"
+                                                class="form-control input-md" required="" type="text"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- Text input-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-muted" for="available_quantity">AVAILABLE
+                                                    QUANTITY</label>
+                                                <div class="col-md-12">
+                                                    <input id="available_quantity" th:field="*{currentQuantity}"
+                                                        name="available_quantity" class="form-control input-md"
+                                                        required="" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-muted" for="price">PRICE</label>
+                                                <div class="col-md-12">
+                                                    <input id="price" name="price" th:field="*{costPrice}"
+                                                        class="form-control input-md" required="" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <input id="url" name="currentPage" th:field="*{currentPage}"
+                                                class="form-control input-md" required="" type="hidden">
+                                        </div>
+                                    </div>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <!-- File Button -->
+                                            <div class="form-group">
+                                                <label class="text-muted" for="image">PRODUCT
+                                                    IMAGE</label>
+                                                <div class="row d-flex">
+                                                    <div class="col-md-2">
+                                                        <img class="my-product-image" style="height: 40px; width: 40px;"
+                                                        alt="" th:src="'data:image/jpeg;base64,' + *{image}">
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input id="image" name="imageProduct" class="form-control"
+                                                        type="file">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-white">
+                                        <button type="submit" class="btn btn-primary btn-block">Update</button>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        // Function to fetch subcategories based on selected category
+        function fetchSubcategories(categoryId) {
+            $.ajax({
+                url: '/admin/subcategories/' + categoryId,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    console.log('Response:', response); // Log the response
+                    // Clear existing options
+                    $('#product_subcategories').empty();
+                    // Append new options
+                    $.each(response, function (index, subcategory) {
+                        $('#product_subcategories').
+                        append($('<option>', {
+                            value: subcategory.id,
+                            text: subcategory.name
+                        }));
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error); // Log the error
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::head}"></head>
+
+<head>
+    <style>
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 7px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            text-align: center;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/b982f6e503.js" crossorigin="anonymous"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+</head>
+
+<body class="bg-light">
+    <div th:replace="~{fragments::optional}"></div>
+    <div th:replace="~{fragments::main-top}"></div>
+    <header th:replace="~{fragments::main-header}"></header>
+
+    <!-- Start Cart -->
+    <div class="mt-3 container-fluid">
+        <!-- <h3 class="text-center font-weight-bold mb-3 ml-2">Oops! Your Cart is Empty.</h3> -->
+        <!-- <p class="container text-center">
+            <img src="images/.jpeg" alt="Empty Wishlist" style="height: 450px;width: 600px;">
+        </p> -->
+        <h3 class="font-weight-bold mt-2 text-center">My Wishlist</h3>
+        <div class="container">
+            <div class="row m-5">
+                <div class="col-lg-12 align-items-center bg-light">
+                    
+                    <div class="mt-2">
+                        <div th:if="${size==0}" class="text-center d-flex flex-column justify-content-center align-items-center">
+                            <img th:src="@{/images/empty-wishlist.png}" class="bg-light" height="300px" width="300px">
+                            <div class="row">
+                                <h3 class="mt-2 mb-3 text-center">Oops! Your wishlist looks empty.</h3>
+                            </div>
+                        </div>
+                        
+                        <table class="table p-1" th:if="${size != 0}">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>Product</th>
+                                    <th></th>
+                                    <th>Unit Price</th>
+                                    <th>Stock Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                <tr th:each="product: ${products}">
+                                    <td><img class="img-fluid"
+                                                th:src="'data:image/jepg;base64,' + ${product.image}" alt=""
+                                                style="height: 100px;width: 100px;"></td>
+                                    <td>
+                                        <span th:text="${product.name}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:text="${product.costPrice}"></span>
+                                    </td>
+                                    <td>
+                                        
+                                        <span th:if="${product.currentQuantity != 0}" class="text-success">In Stock</span>
+                                        <span th:if="${product.currentQuantity == 0}" class="text-danger">Not in stock.</span>
+                                        <span th:if="${product.currentQuantity <= 5}" class="text-warning">
+                                            <br><span th:text="'Only '+${product.currentQuantity} + ' are left.'"></span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" th:value="${product.id}" id="productId" name="id" class="form-control">
+                                        <button class="btn btn-outline-primary addToCartBtn" data-product-id="${product.id}" style="border-radius: 20px;">Add to cart</button>
+
+                                        <a th:href="@{/remove-from-wishlist/{id}(id=${product.id})}">
+                                            <i class="fa-solid fa-circle-xmark ml-5" style="color:red"></i>
+                                        </a>
+                                        
+                                    </td> 
+                                </tr>
+                            </tbody> 
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- End Cart -->
+    <footer th:replace="~{fragments::footer}"></footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.addToCartBtn').click(function() {
+                const productId = $(this).siblings('input[name="id"]').val();
+                
+                // Send request to add item to cart
+                $.ajax({
+                    type: "POST",
+                    url: "/shop/add-to-cart",
+                    data: {
+                        id: productId
+                    },
+                    success: function(data) {
+                        // Upon success, remove item from wishlist
+                        $.ajax({
+                            type: "DELETE",
+                            url: "/shop/remove-from-wishlist/" + productId,
+                            success: function(response) {
+                                // Update UI or perform any necessary actions
+                                const responseData = JSON.parse(response);
+                    
+                                toastr.success(responseData.message);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                toastr.error('Something Went Wrong! Failed to add to cart.');
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+        </script>
+    
+</body>
+</html>

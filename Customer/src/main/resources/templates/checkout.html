@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+
+<head th:replace="~{fragments::head}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+</head>
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <style>
+        input{
+        width: 100%;
+        padding: 10px;
+        margin:7px;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    </style>
+</head>
+
+<body>
+
+    <div th:replace="~{fragments::optional}"></div>
+
+<div th:replace="~{fragments::main-top}"></div>
+
+<header th:replace="~{fragments::main-header}"></header>
+
+    <div class="mt-5 container mb-5">
+        <div class="row">
+            <div class="col-md-7 bg-white">
+                <div class="">
+                    <h4 class="text-dark ml-2 my-2">Contact Information</h4>
+                    <form class="" novalidate th:object="${customer}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">            
+                                    <input type="text" th:field="*{username}" id="username"
+                                        class="bg-light"        placeholder="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">                                
+                                <input type="text" th:field="*{phoneNumber}" id="phone" placeholder=""
+                                class="bg-light"    readonly>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <h4 class="text-dark ml-4 my-2">Shipping Address</h4>
+                            <div class="col-md-12">
+                                <input type="text" th:value="${address.street}" id="street"
+                                        readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" th:value="${address.city}" id="phone" placeholder=""
+                                        readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" th:value="${address.pincode}" id="phone" placeholder=""
+                                        readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" th:value="${address.state}" id="phone" placeholder=""
+                                        readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" th:value="${address.country}" id="phone" placeholder=""
+                                        readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <a th:href="@{/cart}" class="mt-3 ml-2 btn btn-outline-primary"><i class="fa-regular fa-circle-left"></i> Return to Cart</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a th:href="@{/profile}" class="btn btn-primary btn-block mt-3"> <i class="fa-solid fa-pen-to-square"></i> Change Address Information</a>  
+                            </div>
+                        </div>
+                        <hr class="mb-1">
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <form th:action="@{/add-order}" method="post" th:object="${shoppingCart}">
+                    <input type="hidden" name="id" th:value="${id}">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card mt-5 ml-5">
+                            <div class="card-header bg-white">
+                                <h3 class="font-weight-bold">Your Order</h3>
+                            </div>
+                            <div class="rounded p-2">
+                                <div class="mb-2" th:each="item : ${shoppingCart.getCartItems()}">
+                                    <div class="card-body">
+                                        <strong
+                                            th:text="${item.product.name}"
+                                            class="text-info mb-2">
+                                        </strong>
+                                        <div class="text-muted">₹ [(${item.product.costPrice})] <span
+                                                class="mt-2">|</span> Qty: [(${item.quantity})]
+                                            <span class="mt-2">|</span> Subtotal: ₹ [(${item.unitPrice *
+                                            item.quantity})]
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <table class="table mt-3">
+                                    <tr>
+                                        <td><strong>Sub Total(₹)</strong></td>
+                                        <td><div class="ml-auto font-weight-bold" th:text="${shoppingCart.totalPrice}"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Shipping Cost</strong></td>
+                                        <td><div class="ml-auto font-weight-bold"> Free</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h5>Grand Total(₹)</h5></td>
+                                        <td><div id="totalAmount" class="ml-auto h5" th:text="${shoppingCart.totalPrice}"></div></td>
+                                    </tr>
+                                 </table>
+                                <!-- Payment id, and status are from update payment on server function paramerters-->
+                                <input type="hidden" name="paymentId" id="paymentId">
+                                <input type="hidden" name="status" id="status">
+
+                                <div class="btn-block">
+                                    <!-- <button type="submit" id="orderButton" class="btn btn-primary btn-block font-weight-bold">Place Order</button> -->
+                                
+                                    <button type="button" id="paymentButton" class="btn text-white  btn-block font-weight-bold"
+                                        onclick="makePayment()" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: black;">
+                                        Pay and Place Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Cart -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script type="text/javascript">
+    
+    function toggleButtons() {
+        var paymentMethod = document.getElementById("paymentMethod").value;
+        var orderButton = document.getElementById("orderButton");
+        var paymentButton = document.getElementById("paymentButton");
+
+        orderButton.style.display = "none";
+        paymentButton.style.display = "inline-block";
+        orderButton.disabled = true;
+        paymentButton.disabled = false;     
+    }
+
+    $(document).ready(function()
+    {
+        $("#orderButton").hide();
+        $("#paymentButton").click(function()
+        {
+            alert("Redirecting to payment ..."); 
+            var amount = $("#totalAmount").text();
+            console.log("Total Amount: "+amount);
+            if(amount=='' || amount==null){
+                return;
+            }
+            // Send to Server using ajax
+            $.ajax(
+                {
+                    url:'/shop/create_order',
+                    data:JSON.stringify({amount:amount, info:'order_request '}),
+                    contentType:'application/json',
+                    type:'POST',
+                    dataType:'json',
+                    success:function(response){
+                        
+                        console.log(response);
+                        if(response.status='created'){
+                            //open payment form
+                            let options ={
+                                key:'rzp_test_9NlQwnOUBr8xWJ',
+                                amount:response.amount,
+                                currency:'INR',
+                                name:'SPORT SHOP',
+                                description:'',
+                                image:'https://static.vecteezy.com/system/resources/previews/005/072/520/original/sports-shop-modern-logo-vector.jpg',
+                                order_id:response.id,
+                                handler:function(response){
+                                    console.log("Inside handler");
+                                    console.log(response.razorpay_payment_id)
+                                    console.log(response.razorpay_order_id)
+                                    console.log(response.razorpay_signature)
+                                    console.log('Payment Successful')
+
+                                    //
+                                    updatePaymentOnServer(
+                                        response.razorpay_payment_id,
+                                        response.razorpay_order_id,
+                                        "paid"
+                                    );
+                                    
+                                    swal("Congratulations! Payment has been done successfully.");
+                                    
+                                },
+                                "prefill":{
+                                    "name":"",
+                                    "email":"",
+                                    "contact":"",
+
+                                },
+                                notes:{
+                                    address:"Final Sem Project"
+                                },
+                                theme:{
+                                    color:"#3399cc",
+                                },
+                            };
+
+                            let rzp = new Razorpay(options);
+
+                            rzp.on('payment.failed',function(response){
+                                console.log(response.error.code);
+                                console.log(response.error.description);
+                                console.log(response.error.source);
+                                console.log(response.error.step);
+                                console.log(response.error.reason);
+                                console.log(response.error.metadata.order_id);
+                                console.log(response.error.metadata.payment_id);
+
+                                swal("Oops! Payment Failed.");
+                            });
+                            rzp.open();
+                        }
+                    },
+                    error:function(error){
+                        // invoked when error
+                        alert("Something Went Wrong.");
+                        
+                    }
+                }
+            )
+        });
+        // Handle the submission of the order when "Place Order" button is clicked      
+    });
+
+    function updatePaymentOnServer(payment_id, order_id, status)
+    {
+        // here, paymentId and status values added in form fields,
+        // for adding these values to order 
+        document.getElementById("paymentId").value = payment_id;
+        document.getElementById("status").value = status;
+
+        $.ajax(
+                {
+                    url:'/shop/update_order',
+                    data:JSON.stringify({
+                        payment_id:payment_id, 
+                        order_id:order_id, 
+                        status:status
+                    }),
+                    contentType:'application/json',
+                    type:'POST',
+                    dataType:'json',
+                    success:function(response){ 
+                        alert("Congratulations! Payment has been done successfully.");
+                        
+                        $("form").submit();
+                        // Parse the JSON response
+                        const responseData = JSON.parse(response);
+                        // Display the message using Toastr
+                        stoastr.success(responseData.message);
+                    },
+                    error:function(error){
+                        console.log(error);
+                        // swal("Attention - Payment is Successfull but there is something went wrong on server, we will contact to you as soon as possible.");
+                    }
+                }
+            )
+        
+    }
+</script>
+
+<!-- Start Footer  -->
+<footer th:replace="~{fragments::footer}"></footer>
+
+</body>
+</html>

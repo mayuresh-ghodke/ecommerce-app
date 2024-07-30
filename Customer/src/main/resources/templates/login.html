@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::head}">
+    
+</head>
+
+<head>
+    <style>
+        input, select{
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        *{
+            font-family:'Times New Roman', Times, serif;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    
+    <div th:replace="~{fragments::main-top}"></div>
+
+    <header th:replace="~{fragments::main-header}" ></header>
+
+    <div class="container">
+        <div class="row">
+            <div class="card bg-white offset-md-3 p-5 mt-5" style="height: 450px; width: 600px;";>
+                <div class="form">
+                    <h2 class="font-weight-bold text-center mb-2">Login</h2>
+                    <div th:if = "${param.error}" class="p-3 alert alert-danger text-center">
+                        Invalid username or password
+                    </div>
+                    <div th:if = "${param.logout}" class="p-3 alert alert-success text-center">
+                        You have been logged out!
+                    </div>
+                    <form th:action="@{/do-login}" method="post" class="login-form">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-muted" >Username/Email</label>
+                            <input type="email"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold text-muted">Password</label>
+                            <input type="password"  id="exampleInputPassword1" placeholder="Password" name="password" required>
+                            <a th:href="@{verify-otp}"><sub>Forgot Password?</sub></a>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary btn-block">Login</button>
+                        </div>
+                        <div class="form-group text-center">
+                            <p>Don't have an account? <a  th:href="@{/register}">Register Now</a></p>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

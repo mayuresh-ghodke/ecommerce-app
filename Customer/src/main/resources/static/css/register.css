@@ -1,0 +1,30 @@
+body {
+    background-image: url('background-image.jpg'); /* Replace 'background-image.jpg' with your image path */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card {
+    width: 400px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: none;
+    text-align: center;
+    padding: 20px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.card-body {
+    padding: 20px;
+}
+.btn-block {
+    border-radius: 25px;
+}

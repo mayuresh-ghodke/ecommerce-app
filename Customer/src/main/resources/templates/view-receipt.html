@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+
+<head th:replace="~{fragments::head}"></head>
+
+<body>
+    <!-- Start Main Top -->
+    <div th:replace="~{fragments::main-top}">
+    </div>
+    <!-- End Main Top -->
+
+
+    <!-- Start Main Top -->
+    <header th:replace="~{fragments::main-header}"></header>
+    <!-- End Main Top -->
+    </head>
+
+    <head>
+        <style>
+            input,
+            textarea {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 16px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="" style="display: none;">
+                <div class="row mt-3 ml-3">
+                    <h4 class="text-right">SPORT SHOP</h4>
+                </div>
+                <div class="row mt-1 ml-3">
+                    <h6 class="text-right">Contact:+91 7559201990</h6>
+                </div>
+                <div class="row mt-1 ml-3">
+                    <h6 class="text-right">Email: ghodkemayuresh86@gmail.com</h6>
+                </div>
+                <hr>
+            </div>
+            
+            <div class="row mt-3 ml-3">
+                <h4>Order Information</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-10 md-offset-3 p-3">
+                    <div class="receipt" id="receipt">
+                        <div class="card">
+                            <div class="card-header bg-white p-1">
+                                <h6 class="ml-3">Order Details</h6>
+                            </div>
+                            <div class="card-body p-1">
+                                <div class="row ml-1">
+                                    <div class="col-6">
+                                        <strong>ORDER ID: </strong><span th:text="${orders.id}"></span><br>
+                                        <strong>DATE ADDED: </strong><span th:text="${orders.orderDate}"></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>PAYMENT MODE: </strong><span
+                                            th:text="${orders.paymentMethod}"></span><br>
+                                        <strong>ORDER STATUS: </strong><span th:text="${orders.orderStatus}" th:if="${orders.isDelivered==false}"></span>
+                                        <span th:if="${orders.isDelivered==true}">Delivered on </span>
+                                        <span th:if="${orders.isDelivered==true}" th:text="${orders.deliveryDate}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header bg-white p-1">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6 class="ml-3 font-weight-bold">Customer Information</h6>
+                                    </div>
+                                    <div class="col-6">
+                                        <h6 class="ml-3 font-weight-bold">Shipping Address</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-1">
+                                <div class="row ml-1">
+                                    <div class="col-6">
+                                        <span th:text="${customer.firstName}"></span> <span
+                                            th:text="${customer.lastName}"></span><br>
+                                        <span th:text="${customer.username}"></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span th:text="${address.street}"></span>, <span
+                                            th:text="${address.city}"></span>
+                                        <span th:text="${address.pincode}"></span><br>
+                                        <span th:text="${address.state}"></span><br>
+                                        <span th:text="${address.country}">.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <table class="mt-2 table table-bordered">
+                                    <thead class="p-1">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="product, index : ${productsList}">
+                                            <td><span th:text="${product.name}"></span></td>
+                                            <!-- Used the iteration status variable to access the current index -->
+                                            <td class="text-right"><span
+                                                    th:text="${orderDetailsList[0][__${index.index}__].productQuantity}"></span>
+                                            </td>
+                                            <td class="text-right">₹<span th:text="${product.costPrice}"></span></td>
+                                            <!-- Calculated the total price for each product -->
+                                            <td class="text-right">₹<span
+                                                    th:text="${orderDetailsList[0][__${index.index}__].productQuantity * product.costPrice}"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3"><strong>Total</strong></td>
+                                            <td class="text-right"><strong>₹</strong><strong
+                                                    th:text="${orders.totalPrice}"></strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="p-1">
+                                <strong>Payment ID &nbsp;&nbsp;&nbsp;: <span th:text="${orders.paymentId}"></span></strong><br>
+                                <strong>Payment Status: <span class="text-uppercase" th:text="${orders.status}"></span></strong>
+                                <div class="text-right" id="printDate"></div>                               
+                            </div>
+
+                        </div>
+                        <div class="row mt-3 ml-1">
+                            <div class="text-center">
+                                <button class="btn btn-primary" onclick="printReceipt()">Print</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        </div>
+        </div>
+
+        <script type="text/javascript">
+            function printReceipt() {
+                // Hide the print button before printing
+                var printButton = document.querySelector('.btn-primary');
+                printButton.style.display = 'none';
+
+                // Print the receipt
+                window.print();
+
+                // Show the print button again after printing is done (optional)
+                printButton.style.display = 'block';
+            }
+
+        </script>
+    </body>
+
+</html>

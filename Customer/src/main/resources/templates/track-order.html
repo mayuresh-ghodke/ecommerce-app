@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::head}"></head>
+
+<head>
+    <style>
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 7px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/b982f6e503.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-light">
+    <div th:replace="~{fragments::optional}"></div>
+    <div th:replace="~{fragments::main-top}"></div>
+    <header th:replace="~{fragments::main-header}"></header>
+
+    <!-- Start Cart -->
+    <div class="mt-3 container">
+        <h3 class="text-center font-weight-bold mb-3">Track Your Order</h3>
+        <div class="col-md-8 card offset-md-2 mb-3">
+            <div class="card-body">
+                <form th:action="@{/trackOrder}" method="get">
+                    <div class="form-group">
+                        <label class="font-weight-bold text-dark text-muted">ENTER ORDER-ID</label>
+                        <input type="text" placeholder="Enter Order Id" name="orderId" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold text-dark text-muted">ENTER MOBILE NUMBER</label>
+                        <input type="text" placeholder="Enter Mobile Number" name="phoneNumber" required>
+                    </div>
+                    <button class="btn btn-outline-primary" type="submit">CLEAR</button>
+                    <button class="ml-3 btn btn-primary" type="submit">TRACK ORDER</button>
+                </form>
+                <div class="mt-3">
+                    <span class="font-weight-bold" th:text="${status}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Cart -->
+    <footer th:replace="~{fragments::footer}"></footer>
+</body>
+</html>

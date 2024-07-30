@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}"></head>
+
+<body class="bg-primary">
+    <div class="container p-5">
+        <!-- Outer Row -->
+        <div class="row mt-5">
+            <!-- Here is login for Delivery Person -->
+            <div class="col-md-6 justify-content-right">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h3 class=" mb-4">DELIVERY PERSON LOGIN</h3>
+                                    </div>
+                                    <form th:action="@{/do-login-delivery-person}" method="post">
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control" placeholder="Enter Email Address...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" class="form-control" placeholder="Password">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            LOGIN <i class="fa-solid fa-right-to-bracket"></i>
+                                        </button>
+                                        <button type="reset" class="mt-2 btn btn-outline-primary btn-block">
+                                            CLEAR 
+                                        </button>
+                                        <hr>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a th:href="@{/forgot-password}" href="forgot-password.html">Forgot Password
+                                            ?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a th:href="@{/dp-register}" href="register.html">Create an Account</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

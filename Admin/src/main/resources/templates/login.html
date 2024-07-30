@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}"></head>
+
+<body class="bg-primary">
+    <div class="container p-5">
+        <!-- Outer Row -->
+        <div class="row mt-5">
+            <div class="col-md-8 justify-content-center">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h3 class=" mb-4">ADMIN LOGIN</h3>
+                                    </div>
+
+                                    <div th:if="${param.error}" class="alert alert-danger text-center">
+                                        Invalid username or password
+                                    </div>
+                                    <div th:if="${param.logout}" class="alert alert-info text-center">
+                                        You have been logged out!
+                                    </div>
+
+                                    <form class="user" th:action="@{/do-login}" method="post">
+                                        <div class="form-group">
+                                            <input type="email" name="username" class="form-control form-control-user"
+                                                id="username" aria-describedby="emailHelp"
+                                                placeholder="Enter Email Address...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" id="password"
+                                                class="form-control form-control-user" placeholder="Password">
+                                                <i class="fa fa-eye" aria-hidden="true" onclick="togglePasswordVisibility()"></i>
+                                                <script>
+                                                    function togglePasswordVisibility() {
+                                                        const passwordInput = document.getElementById('password');
+                                                        const eyeIcon = document.querySelector('.fa-eye');
+                                                        
+                                                        if (passwordInput.type === 'password') {
+                                                            passwordInput.type = 'text';
+                                                            eyeIcon.classList.remove('fa-eye');
+                                                            eyeIcon.classList.add('fa-eye-slash');
+                                                        } else {
+                                                            passwordInput.type = 'password';
+                                                            eyeIcon.classList.remove('fa-eye-slash');
+                                                            eyeIcon.classList.add('fa-eye');
+                                                        }
+                                                    }
+                                                </script>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            LOGIN <i class="fa-solid fa-right-to-bracket"></i>
+                                        </button>
+                                        <button type="reset" class="mt-2 btn btn-outline-primary btn-block">
+                                            CLEAR 
+                                        </button>
+                                        <hr>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a th:href="@{/forgot-password}" href="forgot-password.html">Forgot Password
+                                            ?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a th:href="@{/register}" href="register.html">Create an Account</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

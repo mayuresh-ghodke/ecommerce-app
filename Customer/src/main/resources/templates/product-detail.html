@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <div th:replace="~{fragments::head}"></div>
+</head>
+
+<head>
+    <style>
+        * {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .product-details-container {
+            margin-bottom: 30px;
+        }
+
+        .product-image {
+            width: 100%;
+            border-radius: 5px;
+
+        }
+
+        .single-product-details {
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .product-name {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-category,
+        .product-subcategory,
+        .product-price,
+        .product-description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .product-price span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .btn-add-to-cart {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-weight: bold;
+        }
+
+        .btn-add-to-cart:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div th:replace="~{fragments::main-top}"></div>
+
+    <header th:replace="~{fragments::main-header}"></header>
+    <div class="">
+        <div class="mt-5 container bg-light p-2">
+            <div class=" row product-details-container bg-light">
+                <!-- Product Image Column -->
+                <div class="col-xl-5 col-lg-5 col-md-6">
+                    <img class="product-image" th:src="'data:image/jpeg;base64,' + ${productDetail.image}"
+                        alt="Product Image">
+                </div>
+
+                <!-- Product Details Column -->
+                <div class="col-xl-7 col-lg-7 col-md-6">
+                    <form th:action="@{/add-to-cart}" method="post">
+                        <div class="single-product-details">
+                            <strong th:text="${productDetail.name}" class="product-name font-weight-bold"></strong>
+                            <p class="product-category">Category: <span th:text="${productDetail.category.name}"></span>
+                            </p>
+                            <p class="product-subcategory">Sub-Category: <span
+                                    th:text="${productDetail.subCategory.name}"></span></p>
+                            <p class="product-price">Price: <span class="text-info"
+                                    th:text="'₹ ' + ${productDetail.costPrice}"></span></p>
+                            <p class="product-description">Description: <span
+                                    th:text="${productDetail.description}"></span></p>
+
+                            <div>
+                                <strong>Total Reviews:</strong>
+                                <p th:text="${size}" th:if="${size != 0}" class="star-rating"></p>
+                                <p th:if="${size == 0}">No reviews.</p>
+
+                        
+
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Rating 5 - Best</td>
+                                            <td>Rating 4 - Good</td>
+                                            <td>Rating 3 - Average</td>
+                                            <td>Rating 2 - Ok</td>
+                                            <td>Rating 1 - Bad</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span th:if="${rating5 == 0}"> --- </span>
+                                                <span th:if="${rating5 > 0}" th:text="${rating5 + '%'}"></span>
+                                            </td>
+                                            <td>
+                                                <span th:if="${rating4 == 0}"> --- </span>
+                                                <span th:if="${rating4 > 0}" th:text="${rating4 + '%'}"></span>
+                                            </td>
+                                            <td>
+                                                <span th:if="${rating3 == 0}"> --- </span>
+                                                <span th:if="${rating3 > 0}" th:text="${rating3 + '%'}"></span>
+                                            </td>
+                                            <td>
+                                                <span th:if="${rating2 == 0}"> --- </span>
+                                                <span th:if="${rating2 > 0}" th:text="${rating2 + '%'}"></span>
+                                            </td>
+                                            <td>
+                                                <span th:if="${rating1 == 0}"> --- </span>
+                                                <span th:if="${rating1 > 0}" th:text="${rating1 + '%'}"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- Display star ratings with percentages -->
+                                <!-- <div th:if="${size != 0}">
+                                            <div>
+                                                <span style="color: orange;">★★★★★</span> <span th:text="${rating5 / size * 100} + '%'"></span>
+                                            </div>
+                                            <div>
+                                                <span style="color: orange;">★★★★</span>☆ <span th:text="${rating4 / size * 100} + '%'"></span>
+                                            </div>
+                                            <div>
+                                                <span style="color: orange;">★★★</span>☆☆ <span th:text="${rating3 / size * 100} + '%'"></span>                                                
+                                            </div>
+                                            <div>
+                                                <span style="color: orange;">★★</span>☆☆☆ <span th:text="${rating2 / size * 100} + '%'"></span>
+                                            </div>
+                                            <div>
+                                                <span style="color: orange;">★</span>☆☆☆☆ <span th:text="${rating1 / size * 100} + '%'"></span>
+                                            </div>
+                                        </div> -->
+                            </div>
+
+                            <!-- Hidden Input for Product ID -->
+                            <input type="hidden" th:value="${productDetail.id}" name="id">
+
+                            <!-- Add to Cart Button -->
+                            <button type="submit" class="mt-5 btn btn-outline-primary btn-block">
+                                <i class="fa-solid fa-cart-plus"></i><span class="ml-1">ADD TO CART</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container bg-light">
+            <!-- Display reviews -->
+            <div class="row mt-4">
+                <div class="col-6" th:each="review : ${reviewList}">
+                    <div class="card mb-3">
+                        <div class="card-body p-2">
+                            <strong th:text="${review.customer.firstName + ' ' + review.customer.lastName}"></strong>
+                            <p th:text="${review.feedback}"></p>
+                            <div class="rating">
+                                <span class="star" style="color: orange;"
+                                    th:each="star : ${#numbers.sequence(1, review.ratingNumber)}">&#9733;</span>
+                                <span class="star" style="color: #ccc;"
+                                    th:each="star : ${#numbers.sequence(review.ratingNumber + 1, 5)}"
+                                    th:if="${review.ratingNumber < 5}">&#9733;</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>
+
+    <footer th:replace="~{fragments::footer}"></footer>
+</body>
+
+</html>

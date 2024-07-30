@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+
+<head th:replace="~{fragments::header}"></head>
+
+<head>
+    <script src="https://kit.fontawesome.com/b982f6e503.js" crossorigin="anonymous"></script>
+</head>
+
+<body id="page-top">
+
+    <div th:replace="~{fragments::top-bar}"></div>
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div class="container-fluid">
+            <div class="row bg-light">
+                <!-- Sidebar -->
+                <ul th:replace="~{fragments::sidebar}"></ul>
+                <!-- End of Sidebar -->
+                <!-- Content Wrapper -->
+                <div id="content-wrapper" class="col-md-10 container d-flex flex-column">
+
+                    <!-- Main Content -->
+                    <div id="content">
+
+                        <!-- Begin Page Content -->
+                        <div class="container">
+
+                            <div class="mt-3 card">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a th:href="@{/add-delivery-person}" class="btn btn-primary mt-2 ml-2">
+                                            <i class="fas fa-plus"></i> Add New Delivery Person</a>
+                                    </div>
+                                    <!-- Select Option for availability-->
+                                </div>
+                            </div>
+                            <div th:if="${success}" class="text-center alert alert-success">
+                                <p th:text="${success}"></p>
+                            </div>
+                            <div th:if="${error}" class="text-center alert alert-danger">
+                                <p th:text="${error}"></p>
+                            </div>
+                            <table class="mt-3 table bg-white table-striped text-right">
+                                <thead class="bg-dark text-white text-uppercase">
+                                    <tr class="bg-white text-dark font-weight-bold">
+                                        <td colspan="3"><span class="text-center">View Delivery Persons</span></td>
+                                        <td colspan="1">
+                                            <span th:text="'TOTAL: '+${size}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Firstname</th>
+                                        <th scope="col">Lastname</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Mobile</th>
+                                        <th scope="col">Availablity</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${size==0}">
+                                        <td colspan="4" class="text-center">No found.</td>
+                                    </tr>
+                                    <tr th:each="dp : ${deliveryPersons}">
+                                        <td scope="row" th:text="${dp.firstName}"></td>
+                                        <td th:text="${dp.lastName}"></td>
+                                        <td th:text="${dp.email}"></td>
+                                        <td th:text="${dp.phoneNumber}"></td>
+                                        <td>
+                                            <span th:if="${dp.isAvailable == true}" class="text-success">Available</span>
+                                            <span th:if="${dp.isAvailable != true}" class="text-danger">Not Available</span>
+                                        </td>
+                                        
+                                        <td>
+                                            <a th:href="@{/update-delivery-person/{id}(id= ${dp.id})}" class="btn btn-primary">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <a th:href="@{/delete-delivery-person/{id}(id= ${dp.id})}" class="btn btn-danger">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- End of Main Content -->
+                </div>
+                <!-- End of Content Wrapper -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

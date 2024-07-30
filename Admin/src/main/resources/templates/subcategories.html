@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+
+<head th:replace="~{fragments::header}"></head>
+
+<head>
+    <script src="https://kit.fontawesome.com/b982f6e503.js" crossorigin="anonymous"></script>
+</head>
+
+<body id="page-top">
+
+    <div th:replace="~{fragments::top-bar}"></div>
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div class="container-fluid">
+            <div class="row bg-light">
+                <!-- Sidebar -->
+                <ul th:replace="~{fragments::sidebar}"></ul>
+                <!-- End of Sidebar -->
+                <!-- Content Wrapper -->
+                <div id="content-wrapper" class="col-md-10 container d-flex flex-column">
+
+                    <!-- Main Content -->
+                    <div id="content">
+
+                        <!-- Begin Page Content -->
+                        <div class="container">
+
+                            <div class="mt-3 card">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a th:href="@{/sub-category}" class="btn btn-primary mt-2 ml-2">
+                                            <i class="fas fa-plus"></i> Add New Sub Category</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong class="">VIEW BY CATEGORIES</strong>
+                                            <form th:action="@{/get-subcategories-by-category}" method="GET">
+                                                <div class="form-group d-flex">
+                                                    <div class="col-md-8">
+                                                        <select id="product_categories" name="category"
+                                                            class="form-control">
+                                                            <option value="">-SELECT-</option>
+                                                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                                                th:text="${category.name}" class="form-control"></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="submit" class="btn btn-outline-dark">VIEW</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${success}" class="text-center alert alert-success">
+                                <p th:text="${success}"></p>
+                            </div>
+                            <div th:if="${error}" class="text-center alert alert-danger">
+                                <p th:text="${error}"></p>
+                            </div>
+                            <table class="mt-3 table table-bordered table-striped bg-white">
+                                <thead class="bg-dark text-white text-uppercase">
+                                    <tr class="bg-white text-dark font-weight-bold">
+                                        <td colspan="3">View Subcategories</td>
+                                        <td colspan="1">
+                                            <span th:text="'TOTAL: '+${size}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Subcategory</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Update</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${size==0}">
+                                        <td colspan="4" class="text-center">No subcategory found.</td>
+                                    </tr>
+                                    <tr th:each="sc : ${subcategorylist}">
+                                        <th scope="row" th:text="${sc.name}"></th>
+                                        <td th:text="${sc.category.name}"></td>
+                                        <td><a class="btn btn-primary">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a></td>
+                                        <td><a class="btn btn-danger">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- End of Main Content -->
+                </div>
+                <!-- End of Content Wrapper -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
