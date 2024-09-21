@@ -5,6 +5,7 @@ It allows customers to browse sports products, apply filters to search perticula
 The admin panel provides functionality to manage product listings, orders, users and product categories.
 
 **Key Features:**
+
 **Product Management:** Admin can add, update, and delete products, categories, users.
 
 **Customer Shopping Experience:** Customers can view product listings, add products to the cart, and place orders.
