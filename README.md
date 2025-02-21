@@ -1,4 +1,4 @@
-********************************Sports Equipment Shop********************************
+********************************SportsNest********************************
 
 This project is a web-based application for managing a sports equipment shop, developed using Java, Spring Boot, Hibernate (Spring Data JPA), and Thymeleaf. 
 It allows customers to browse sports products, apply filters to search perticular product, place orders, and make payment. 
@@ -21,7 +21,7 @@ The admin panel provides functionality to manage product listings, orders, users
 
 **Technologies Used:**
 
-Backend: Java, Spring Boot, Hibernate (Spring Data JPA)
+Backend: Java, Spring Boot, Spring Data JPA
 
 Frontend: Thymeleaf, HTML, CSS, Bootstrap, JavaScript
 
